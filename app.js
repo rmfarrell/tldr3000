@@ -1,13 +1,11 @@
+const webhook = require('dotenv').config().WEBHOOK
 const express = require('express')
 const bodyParser = require('body-parser')
-const hellobot = require('./hellobot')
-
+const request = require('request')
 const app = express()
 const port = process.env.PORT || 3000
 
 app.use(bodyParser.urlencoded({extended: true}))
-
-app.post('/hello', hellobot)
 
 // Error handler
 app.use((err, req, res, next) => {
@@ -15,6 +13,18 @@ app.use((err, req, res, next) => {
   res.status(400).send(err.message)
 })
 
-app.listen(port, () => {
-
+/**
+ * Wrapper for posting a reply as the bot
+ * e.g. `curl -X POST -d 'text=example text' "{HOST}/reply"`
+ */
+app.post('/reply', (req, res) => {
+  var formData = {
+    text: req.body.text
+  }
+  formData = JSON.stringify(formData)
+  request.post({url: webhook, form: formData}, (err, httpResponse, body) => {
+    res.send(httpResponse)
+  })
 })
+
+app.listen(port)

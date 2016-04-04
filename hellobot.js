@@ -1,11 +1,12 @@
-module.exports = (req, res, next) => {
-  var userName = req.body.user_name
-  var botPayload = {
-    text: `Hello, ${userName}`
+const request = require('request')
+
+function sayHello () {
+  var formData = {
+    text: 'hello'
   }
-  if (userName !== 'slackbot') {
-    return res.status(200).json(botPayload)
-  } else {
-    return res.status(200).end
+  formData = JSON.stringify(formData)
+  request.post({url: process.env.WEBHOOK, form: formData}, (err, httpResponse, body) => {
+    if (err) console.log(err)
+    })
   }
-}
+  sayHello()
