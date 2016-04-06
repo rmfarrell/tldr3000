@@ -23,6 +23,7 @@ app.post('/reply', (req, res) => {
   }
   formData = JSON.stringify(formData)
   request.post({url: webhook, form: formData}, (err, httpResponse, body) => {
+    if (err) console.log(err)
     res.send(httpResponse)
   })
 })
