@@ -9,7 +9,7 @@ const request = require('request')
  */
 function fetchContent () {
   var _fetchUrl = `https://cdn.contentful.com/spaces/${process.env.CONTENTFUL_SPACE}` +
-    `/entries?access_token=${process.env.ACCESS_TOKEN}&limit=1`
+    `/entries?access_token=${process.env.ACCESS_TOKEN}&limit=1&order=-sys.createdAt`
   return new Promise((resolve, reject) => {
     request(_fetchUrl, (err, response, body) => {
       if (err) reject(err)
