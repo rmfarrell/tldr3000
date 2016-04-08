@@ -36,7 +36,8 @@ function fetchContent () {
 function postToSlack (data) {
   var _params = {
     url: process.env.WEBHOOK,
-    form: JSON.stringify(data)
+    form: JSON.stringify(data),
+    mrkdwn: true
   }
   return new Promise((resolve, reject) => {
     request.post(_params, (err, httpResponse, body) => {
